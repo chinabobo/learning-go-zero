@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package train_proxy;
+option go_package = "./train_proxy";
+
+enum TrainTaskType {
+  TaskTypePlaceholder = 0;
+  TaskTypeTrain = 1;
+  TaskTypeReset = 2;
+}
+
+message CreateTaskReq {
+  uint64 user_id = 1;
+  uint64 meta_id = 2;
+  uint64 task_id = 3;
+  TrainTaskType task_type = 4;
+  string model_id = 5;
+  string params = 6;
+}
+
+message CreateTaskResp {
+  uint32 status = 1;
+  uint32 progress = 2;
+  int64 estimated_time = 3;
+}
+
+service TrainProxySrv {
+  rpc CreateTask(CreateTaskReq) returns (CreateTaskResp);
+}
